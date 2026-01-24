@@ -1,0 +1,9 @@
+{
+	"name": "weeky-datafactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cbbdaab4-10a6-4576-ac6d-02f3db4d45d8",
+		"tenantId": "7694f0a3-804f-443a-9d3d-d7803739a6c7"
+	}
+}
