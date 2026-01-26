@@ -12,7 +12,15 @@
 					"name": "datasource"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dataflow_sink",
+						"type": "DatasetReference"
+					},
+					"name": "dataflowSink"
+				}
+			],
 			"transformations": [
 				{
 					"name": "selectcols"
@@ -25,6 +33,12 @@
 				},
 				{
 					"name": "splitdata"
+				},
+				{
+					"name": "Tranformation"
+				},
+				{
+					"name": "alterRow1"
 				}
 			],
 			"scriptLines": [
@@ -54,12 +68,22 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectcols",
-				"selectcols sort(asc(Date, true),",
+				"selectcols sort(desc(Quantity, true),",
 				"     partitionLevel: true) ~> sortdata",
 				"sortdata filter(Age>=23) ~> filterRows",
 				"filterRows split({Product Category}=='Clothing',",
 				"     {Product Category} == 'Beauty',",
-				"     disjoint: false) ~> splitdata@(Clothing, Beauty, other)"
+				"     disjoint: false) ~> splitdata@(Clothing, Beauty, other)",
+				"splitdata@Clothing aggregate(groupBy({Customer ID}),",
+				"     {Transaction ID} = max({Transaction ID})) ~> Tranformation",
+				"Tranformation alterRow(insertIf(1==1)) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> dataflowSink"
 			]
 		}
 	}
