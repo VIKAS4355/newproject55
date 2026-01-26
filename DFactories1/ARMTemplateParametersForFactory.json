@@ -10,6 +10,9 @@
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://vikasdatastorage.dfs.core.windows.net/"
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com"
 		}
 	}
 }
