@@ -1,0 +1,9 @@
+{
+	"name": "DFactories1",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3bb2af46-d3f4-4e77-92e4-618627c1b0c8",
+		"tenantId": "7694f0a3-804f-443a-9d3d-d7803739a6c7"
+	}
+}
