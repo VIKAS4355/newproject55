@@ -1,0 +1,67 @@
+{
+	"name": "Variable_pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "MetadataCSV",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "salesdata",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "StoreFiles",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "MetadataCSV",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Variablefiles",
+					"value": {
+						"value": "@activity('MetadataCSV').output.childItems",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"Variablefiles": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
