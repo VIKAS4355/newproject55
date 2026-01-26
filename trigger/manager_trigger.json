@@ -1,0 +1,24 @@
+{
+	"name": "manager_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Onlydatacopy_pipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/data-source/blobs/csvffiles/Daily_Global_Stock_Market_Indicators.csv",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/4a3a9f3c-6e46-481c-aeb6-bde1a1812bb4/resourceGroups/sales_project1/providers/Microsoft.Storage/storageAccounts/vikasdatastorage",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
