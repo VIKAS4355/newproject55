@@ -795,6 +795,37 @@
 				"[concat(variables('factoryId'), '/datasets/sales')]",
 				"[concat(variables('factoryId'), '/datasets/dataflow_sink')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/selectedfilestriger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Only_Selected_Files",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 15,
+						"startTime": "2026-01-26T17:37:00",
+						"endTime": "2026-01-27T17:40:00",
+						"timeZone": "India Standard Time"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Only_Selected_Files')]"
+			]
 		}
 	]
 }
