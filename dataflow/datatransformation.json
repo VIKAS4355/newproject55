@@ -1,0 +1,66 @@
+{
+	"name": "datatransformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sales",
+						"type": "DatasetReference"
+					},
+					"name": "datasource"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "selectcols"
+				},
+				{
+					"name": "sortdata"
+				},
+				{
+					"name": "filterRows"
+				},
+				{
+					"name": "splitdata"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Transaction ID} as short,",
+				"          Date as date,",
+				"          {Customer ID} as string,",
+				"          Gender as string,",
+				"          Age as short,",
+				"          {Product Category} as string,",
+				"          Quantity as short,",
+				"          {Price per Unit} as short,",
+				"          {Total Amount} as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> datasource",
+				"datasource select(mapColumn(",
+				"          {Transaction ID},",
+				"          Date,",
+				"          {Customer ID},",
+				"          Age,",
+				"          {Product Category},",
+				"          Quantity,",
+				"          {Price per Unit},",
+				"          {Total Amount}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectcols",
+				"selectcols sort(asc(Date, true),",
+				"     partitionLevel: true) ~> sortdata",
+				"sortdata filter(Age>=23) ~> filterRows",
+				"filterRows split({Product Category}=='Clothing',",
+				"     {Product Category} == 'Beauty',",
+				"     disjoint: false) ~> splitdata@(Clothing, Beauty, other)"
+			]
+		}
+	}
+}

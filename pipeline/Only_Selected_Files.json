@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -138,7 +139,7 @@
 				}
 			},
 			{
-				"name": "Data flow1",
+				"name": "Transformation",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
@@ -157,6 +158,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataflow": {
+						"referenceName": "datatransformation",
+						"type": "DataFlowReference"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
